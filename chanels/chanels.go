@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"time"
-	."wbTestGo/constants"
+	. "wbTestGo/constants"
 )
-
 
 type Counter struct {
 	Value   int
@@ -41,7 +40,6 @@ func main() {
 
 	beginFileWriting(c1, c2)
 
-		//printFile(FileName)
 }
 func createFile() {
 	err := ioutil.WriteFile(FileName, nil, 0777)
