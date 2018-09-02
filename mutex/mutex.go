@@ -14,16 +14,17 @@ type Counter struct {
 }
 
 const (
-	Threads  = 25
+	Threads  = 10
 	Goal     = 10
-	Interval = time.Second / 2
+	Interval = time.Second
 )
 
 var fileMutex sync.Mutex
 var countMutex sync.Mutex
 var finishCount = 0
 
-func countComplete(c Counter) {
+func countComplete(c Counter, wg *sync.WaitGroup) {
+	defer wg.Done()
 	countMutex.Lock()
 	defer countMutex.Unlock()
 	finishCount++
@@ -36,20 +37,18 @@ func main() {
 	for i := 0; i < Threads; i++ {
 		c := Counter{i + 1, 0}
 		wg.Add(1)
-		go c.Print(wg)
+		go c.StartCount(wg)
 	}
 	wg.Wait()
 
 }
 
-func (c Counter) Print(wg *sync.WaitGroup) {
-	defer wg.Done()
-
+func (c Counter) StartCount(wg *sync.WaitGroup) {
 	for i := 0; i < Goal; i++ {
 		time.Sleep(Interval)
 		writeFile(fmt.Sprintf(MessageCount, c.ChanelNumber, i+1))
 		if i == Goal-1 {
-			countComplete(c)
+			countComplete(c, wg)
 		}
 	}
 }
