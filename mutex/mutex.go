@@ -13,12 +13,6 @@ type Counter struct {
 	Value        int
 }
 
-const (
-	Threads  = 10
-	Goal     = 10
-	Interval = time.Second
-)
-
 var fileMutex sync.Mutex
 var countMutex sync.Mutex
 var finishCount = 0

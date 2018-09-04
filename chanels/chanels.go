@@ -40,6 +40,7 @@ func main() {
 
 	beginFileWriting(c1, c2)
 
+	//printFile(FileName)
 }
 func createFile() {
 	err := ioutil.WriteFile(FileName, nil, 0777)
